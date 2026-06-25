@@ -1,0 +1,36 @@
+<section class="module-shell">
+  <div class="module-hero"><div><p class="eyebrow">Academic scheduling</p><h1>Classes</h1><p>Configure class metadata once so attendance can auto-load class, subject, teacher, room, and semester.</p></div><div class="hero-stat"><strong>{{ classes.length }}</strong><span>classes</span></div></div>
+  <div class="message" *ngIf="message">{{ message }}</div>
+  <div class="toolbar">
+    <input [(ngModel)]="searchTerm" name="classSearch" placeholder="Search classes..." />
+    <select [(ngModel)]="departmentFilter" name="departmentFilter"><option value="">All departments</option><option *ngFor="let department of departments" [value]="department.name">{{ department.name }}</option></select>
+    <button type="button" (click)="exportCsv()">Export CSV</button>
+  </div>
+  <div class="content-grid">
+    <div class="entry-card">
+      <form (ngSubmit)="addDepartment()">
+        <h2>Add department</h2>
+        <input [(ngModel)]="departmentForm.name" name="departmentName" placeholder="Department name" required />
+        <input [(ngModel)]="departmentForm.code" name="departmentCode" placeholder="Code" required />
+        <button class="primary" type="submit">Save department</button>
+      </form>
+      <form (ngSubmit)="addClass()">
+        <h2>Add class</h2>
+        <input [(ngModel)]="form.name" name="name" placeholder="Class name" required />
+        <input [(ngModel)]="form.department" name="department" placeholder="Department" required />
+        <input [(ngModel)]="form.semester" name="semester" placeholder="Semester" required />
+        <input [(ngModel)]="form.room" name="room" placeholder="Room" required />
+        <input [(ngModel)]="form.subjectName" name="subjectName" placeholder="Subject" required />
+        <input [(ngModel)]="form.teacherName" name="teacherName" placeholder="Teacher" required />
+        <input [(ngModel)]="form.startTime" name="startTime" placeholder="Start time" required />
+        <button class="primary" type="submit">Save class</button>
+      </form>
+    </div>
+    <div class="table-card">
+      <div class="table-title"><div><p class="eyebrow">Schedule catalog</p><h2>{{ filtered.length }} matching records</h2></div><span class="badge">ERP source</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Class</th><th>Department</th><th>Semester</th><th>Subject</th><th>Teacher</th><th>Room</th><th>Actions</th></tr></thead><tbody>
+        <tr *ngFor="let item of filtered"><td><strong>{{ item.name }}</strong></td><td><span class="soft-badge">{{ item.department }}</span></td><td>{{ item.semester }}</td><td>{{ item.subjectName }}</td><td>{{ item.teacherName }}</td><td>{{ item.room }}</td><td><button class="danger" type="button" (click)="deleteClass(item)">Delete</button></td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</section>

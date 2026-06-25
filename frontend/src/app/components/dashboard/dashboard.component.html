@@ -1,0 +1,247 @@
+<section class="dashboard-shell">
+  <div class="welcome-banner">
+    <div>
+      <p class="eyebrow">Executive attendance cockpit</p>
+      <h1>Welcome back, {{ username }}</h1>
+      <p>Today’s classes, pending attendance, roster health, reports, and activity are visible from one ERP-grade command center.</p>
+      <div class="hero-actions">
+        <a routerLink="/attendance" class="primary-action">Start Attendance</a>
+        <a routerLink="/reports" class="secondary-action">View Analytics</a>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <span>Today</span>
+      <strong>{{ today | date: 'fullDate' }}</strong>
+      <p>{{ completedSessions.length }} completed • {{ pendingSessions.length }} pending</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <article class="stat-card" *ngFor="let card of statCards" [class]="card.tone">
+      <div class="stat-icon"></div>
+      <p>{{ card.label }}</p>
+      <strong>{{ card.value }}</strong>
+      <span>{{ card.detail }}</span>
+    </article>
+  </div>
+
+  <div class="dashboard-grid">
+    <article class="panel panel-large">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Today’s classes</p>
+          <h2>Auto-ready attendance sessions</h2>
+        </div>
+        <a routerLink="/attendance">Open board</a>
+      </div>
+
+      <div class="class-list" *ngIf="todaySessions.length; else noSessions">
+        <div class="class-row" *ngFor="let session of todaySessions">
+          <div class="time-pill">{{ session.startTime || 'Now' }}</div>
+          <div>
+            <strong>{{ session.className }}</strong>
+            <p>{{ session.subjectName }} • {{ session.teacherName }} • {{ session.room }}</p>
+          </div>
+          <span class="status-badge" [class.done]="(session.status || '').toUpperCase() === 'COMPLETED'">
+            {{ session.status || 'PENDING' }}
+          </span>
+          <a routerLink="/attendance" class="row-action">Start</a>
+        </div>
+      </div>
+
+      <ng-template #noSessions>
+        <div class="empty-state">No classes are scheduled for today. Create class sessions from setup to activate attendance.</div>
+      </ng-template>
+    </article>
+
+    <article class="panel">
+      <div class="panel-header compact">
+        <div>
+          <p class="eyebrow">Pending attendance</p>
+          <h2>{{ pendingSessions.length }} sessions</h2>
+        </div>
+      </div>
+      <div class="pending-list">
+        <div class="pending-item" *ngFor="let session of pendingSessions.slice(0, 4)">
+          <span></span>
+          <div>
+            <strong>{{ session.className }}</strong>
+            <p>{{ rosterCount(session) }} students • {{ session.subjectName }}</p>
+          </div>
+        </div>
+        <div class="empty-state small" *ngIf="!pendingSessions.length">Everything is completed. A rare and beautiful creature.</div>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-header compact">
+        <div>
+          <p class="eyebrow">Calendar</p>
+          <h2>June operations</h2>
+        </div>
+      </div>
+      <div class="calendar-grid">
+        <span *ngFor="let day of calendarDays" [class.today]="day === 25" [class.active]="day % 5 === 0 || day === 25">{{ day }}</span>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-header compact">
+        <div>
+          <p class="eyebrow">Announcements</p>
+          <h2>Campus notes</h2>
+        </div>
+      </div>
+      <div class="announcement-list">
+        <div *ngFor="let item of announcements">
+          <strong>{{ item.title }}</strong>
+          <p>{{ item.detail }}</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-header compact">
+        <div>
+          <p class="eyebrow">Quick actions</p>
+          <h2>Move fast</h2>
+        </div>
+      </div>
+      <div class="quick-actions">
+        <a *ngFor="let action of quickActions" [routerLink]="action.path">
+          <strong>{{ action.label }}</strong>
+          <span>{{ action.detail }}</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="panel panel-large">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Attendance trends</p>
+          <h2>Weekly attendance health</h2>
+        </div>
+        <span class="metric-chip">{{ summary.attendancePercentage || 0 | number: '1.0-0' }}%</span>
+      </div>
+      <div class="trend-chart">
+        <div class="bar" *ngFor="let day of trendBars">
+          <span [style.height.%]="day.value"></span>
+          <small>{{ day.label }}</small>
+        </div>
+      </div>
+      <div class="mix-grid">
+        <div *ngFor="let item of attendanceMix" [class]="item.className">
+          <span [style.width.%]="item.value"></span>
+          <strong>{{ item.label }}</strong>
+          <em>{{ item.value }}%</em>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-header compact">
+        <div>
+          <p class="eyebrow">Recent activity</p>
+          <h2>Live audit trail</h2>
+        </div>
+      </div>
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let item of recentActivity">
+          <span></span>
+          <div>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.detail }}</p>
+          </div>
+          <small>{{ item.time }}</small>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <ng-container *ngIf="false">
+  <div class="hero-card">
+    <div class="hero-copy">
+      <p class="eyebrow">Smart campus intelligence</p>
+      <h1>Premium student attendance operations</h1>
+      <p>Coordinate classes, faculty, and attendance moments from a calm command center designed for modern academic teams.</p>
+    </div>
+    <div class="hero-badges">
+      <span>Live roster sync</span>
+      <span>Fast daily workflow</span>
+      <span>Executive-ready overview</span>
+    </div>
+  </div>
+
+  <div class="stats-grid" *ngIf="summary; else loadingState">
+    <div class="stat-card">
+      <p class="stat-label">Students</p>
+      <h3>{{ summary.totalStudents }}</h3>
+      <span class="stat-foot">Registered learners</span>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Faculty</p>
+      <h3>{{ summary.totalFaculty }}</h3>
+      <span class="stat-foot">Active instructors</span>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Sessions</p>
+      <h3>{{ summary.todayAttendance }}</h3>
+      <span class="stat-foot">Planned for today</span>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Attendance rate</p>
+      <h3>{{ summary.attendancePercentage }}%</h3>
+      <span class="stat-foot">Present vs. absent</span>
+    </div>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="stats-grid">
+      <div class="stat-card" *ngFor="let item of [1,2,3,4]">
+        <p class="stat-label">Loading</p>
+        <h3>—</h3>
+        <span class="stat-foot">Preparing metrics</span>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="content-grid">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Workflow</p>
+          <h3>Recommended next actions</h3>
+        </div>
+      </div>
+      <div class="action-grid">
+        <a routerLink="/admin" class="action-card">
+          <strong>Admin setup</strong>
+          <span>Configure departments, faculty, subjects, and students in one place.</span>
+        </a>
+        <a routerLink="/attendance" class="action-card">
+          <strong>Take attendance</strong>
+          <span>Open the board, review the roster, and finalize the day’s attendance in seconds.</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Operations</p>
+          <h3>Live guidance</h3>
+        </div>
+      </div>
+      <div class="insight-list">
+        <div class="insight-item" *ngFor="let item of insights">
+          <div>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.detail }}</p>
+          </div>
+          <span>{{ item.value }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </ng-container>
+</section>

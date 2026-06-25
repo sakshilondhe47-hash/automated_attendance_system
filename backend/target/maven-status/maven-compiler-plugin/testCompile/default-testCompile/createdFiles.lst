@@ -1,0 +1,3 @@
+com\example\attendance\service\AuthServiceLoginTest.class
+com\example\attendance\config\DataSeederTest.class
+com\example\attendance\security\JwtServiceTest.class

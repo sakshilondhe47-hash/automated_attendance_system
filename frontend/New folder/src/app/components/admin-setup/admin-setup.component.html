@@ -1,0 +1,88 @@
+<section class="page-shell">
+  <div class="hero-card">
+    <div>
+      <p class="eyebrow">Admin module</p>
+      <h1>Configure departments, classes, and rosters</h1>
+      <p>Set up your academic structure once, then use it across every attendance session.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Departments</h3>
+      <form (ngSubmit)="addDepartment()">
+        <input [(ngModel)]="departmentForm.name" name="deptName" placeholder="Department name" />
+        <input [(ngModel)]="departmentForm.code" name="deptCode" placeholder="Code" />
+        <button type="submit">Add department</button>
+      </form>
+      <ul>
+        <li *ngFor="let item of departments">{{ item.name }} ({{ item.code }})</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Classes</h3>
+      <form (ngSubmit)="addClass()">
+        <input [(ngModel)]="classForm.name" name="className" placeholder="Class name" />
+        <input [(ngModel)]="classForm.department" name="classDept" placeholder="Department" />
+        <input [(ngModel)]="classForm.semester" name="semester" placeholder="Semester" />
+        <input [(ngModel)]="classForm.room" name="room" placeholder="Room" />
+        <input [(ngModel)]="classForm.subjectName" name="subjectName" placeholder="Subject" />
+        <input [(ngModel)]="classForm.teacherName" name="teacherName" placeholder="Teacher" />
+        <input [(ngModel)]="classForm.startTime" name="startTime" placeholder="Start time" />
+        <button type="submit">Save class</button>
+      </form>
+      <ul>
+        <li *ngFor="let item of classes">{{ item.name }} · {{ item.department }} · {{ item.subjectName }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Subjects</h3>
+      <form (ngSubmit)="addSubject()">
+        <input [(ngModel)]="subjectForm.name" name="subjectName" placeholder="Subject name" />
+        <input [(ngModel)]="subjectForm.code" name="subjectCode" placeholder="Code" />
+        <input [(ngModel)]="subjectForm.department" name="subjectDept" placeholder="Department" />
+        <button type="submit">Add subject</button>
+      </form>
+      <ul>
+        <li *ngFor="let item of subjects">{{ item.name }} · {{ item.code }}</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Faculty</h3>
+      <form (ngSubmit)="addTeacher()">
+        <input [(ngModel)]="teacherForm.name" name="teacherName" placeholder="Teacher name" />
+        <input [(ngModel)]="teacherForm.department" name="teacherDept" placeholder="Department" />
+        <input [(ngModel)]="teacherForm.email" name="teacherEmail" placeholder="Email" />
+        <input [(ngModel)]="teacherForm.phone" name="teacherPhone" placeholder="Phone" />
+        <input [(ngModel)]="teacherForm.subject" name="teacherSubject" placeholder="Subject" />
+        <input [(ngModel)]="teacherForm.className" name="teacherClass" placeholder="Class" />
+        <button type="submit">Add teacher</button>
+      </form>
+      <ul>
+        <li *ngFor="let teacher of teachers">{{ teacher.name }} · {{ teacher.subject }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Students</h3>
+    <form (ngSubmit)="addStudent()">
+      <input [(ngModel)]="studentForm.rollNumber" name="rollNumber" placeholder="Roll number" />
+      <input [(ngModel)]="studentForm.name" name="studentName" placeholder="Student name" />
+      <input [(ngModel)]="studentForm.department" name="studentDept" placeholder="Department" />
+      <input [(ngModel)]="studentForm.year" name="studentYear" placeholder="Year" />
+      <input [(ngModel)]="studentForm.email" name="studentEmail" placeholder="Email" />
+      <input [(ngModel)]="studentForm.phone" name="studentPhone" placeholder="Phone" />
+      <input [(ngModel)]="studentForm.assignedClass" name="assignedClass" placeholder="Assigned class" />
+      <button type="submit">Add student</button>
+    </form>
+    <ul>
+      <li *ngFor="let student of students">{{ student.name }} · {{ student.rollNumber }} · {{ student.assignedClass }}</li>
+    </ul>
+  </div>
+</section>

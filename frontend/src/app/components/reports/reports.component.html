@@ -1,0 +1,43 @@
+<section class="reports-shell">
+  <div class="reports-hero">
+    <div><p class="eyebrow">Analytics dashboard</p><h1>Reports</h1><p>Executive attendance analytics across daily records, completion health, roster size, faculty coverage, and class performance.</p></div>
+    <div class="date-card"><span>Report date</span><input type="date" [(ngModel)]="reportDate" name="reportDate" (change)="load()" /></div>
+  </div>
+
+  <div class="toolbar"><button type="button" (click)="exportCsv()">Export CSV</button><button type="button" (click)="exportPdf()">Export PDF</button></div>
+
+  <div *ngIf="message" class="notice">{{ message }}</div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><span>Total records</span><strong>{{ records.length }}</strong><p>{{ students.length }} enrolled students</p></div>
+    <div class="kpi"><span>Present</span><strong>{{ present }}</strong><p>{{ summary?.attendancePercentage || 0 | number: '1.0-0' }}% dashboard rate</p></div>
+    <div class="kpi"><span>Exceptions</span><strong>{{ absent + late + leave }}</strong><p>{{ absent }} absent • {{ late }} late • {{ leave }} leave</p></div>
+    <div class="kpi"><span>Completion</span><strong>{{ completionRate }}%</strong><p>{{ sessions.length }} scheduled sessions</p></div>
+  </div>
+
+  <div class="analytics-grid">
+    <article class="panel panel-wide">
+      <div class="panel-header"><div><p class="eyebrow">Attendance trends</p><h2>Weekly performance</h2></div></div>
+      <div class="trend-chart"><div class="bar" *ngFor="let value of trendBars; let index = index"><span [style.height.%]="value"></span><small>Day {{ index + 1 }}</small></div></div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-header"><div><p class="eyebrow">Status mix</p><h2>Daily distribution</h2></div></div>
+      <div class="donut-card">
+        <div class="donut">{{ records.length ? ((present / records.length) * 100 | number: '1.0-0') : 0 }}%</div>
+        <p>Present ratio for selected date</p>
+      </div>
+      <div class="legend"><span class="green">Present {{ present }}</span><span class="red">Absent {{ absent }}</span><span class="amber">Late {{ late }}</span><span class="blue">Leave {{ leave }}</span></div>
+    </article>
+
+    <article class="panel panel-wide">
+      <div class="panel-header"><div><p class="eyebrow">Class analytics</p><h2>Attendance by class</h2></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Class</th><th>Records</th><th>Present rate</th><th>Health</th></tr></thead><tbody><tr *ngFor="let item of classBreakdown"><td><strong>{{ item.name }}</strong></td><td>{{ item.count }}</td><td><div class="progress"><span [style.width.%]="item.rate"></span></div></td><td><span class="badge">{{ item.rate }}%</span></td></tr></tbody></table></div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-header"><div><p class="eyebrow">ERP inventory</p><h2>Academic coverage</h2></div></div>
+      <div class="inventory"><div><strong>{{ classes.length }}</strong><span>Classes</span></div><div><strong>{{ subjects.length }}</strong><span>Subjects</span></div><div><strong>{{ teachers.length }}</strong><span>Teachers</span></div><div><strong>{{ students.length }}</strong><span>Students</span></div></div>
+    </article>
+  </div>
+</section>

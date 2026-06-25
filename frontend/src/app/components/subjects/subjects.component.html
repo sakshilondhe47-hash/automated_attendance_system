@@ -1,0 +1,24 @@
+<section class="module-shell">
+  <div class="module-hero"><div><p class="eyebrow">Curriculum catalog</p><h1>Subjects</h1><p>Searchable subject catalog connected to the existing backend subject APIs.</p></div><div class="hero-stat"><strong>{{ subjects.length }}</strong><span>subjects</span></div></div>
+  <div class="message" *ngIf="message">{{ message }}</div>
+  <div class="toolbar">
+    <input [(ngModel)]="searchTerm" name="subjectSearch" placeholder="Search subjects..." />
+    <select [(ngModel)]="departmentFilter" name="departmentFilter"><option value="">All departments</option><option *ngFor="let department of departments" [value]="department">{{ department }}</option></select>
+    <button type="button" (click)="exportCsv()">Export CSV</button><button type="button" (click)="exportPdf()">Export PDF</button>
+  </div>
+  <div class="content-grid">
+    <form class="entry-card" (ngSubmit)="addSubject()">
+      <h2>Add subject</h2>
+      <input [(ngModel)]="form.name" name="name" placeholder="Subject name" required />
+      <input [(ngModel)]="form.code" name="code" placeholder="Subject code" required />
+      <input [(ngModel)]="form.department" name="department" placeholder="Department" required />
+      <button class="primary" type="submit">Save subject</button>
+    </form>
+    <div class="table-card">
+      <div class="table-title"><div><p class="eyebrow">Catalog</p><h2>{{ filtered.length }} matching records</h2></div><span class="badge">Published</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Code</th><th>Subject</th><th>Department</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+        <tr *ngFor="let subject of filtered"><td><strong>{{ subject.code }}</strong></td><td>{{ subject.name }}</td><td><span class="soft-badge">{{ subject.department }}</span></td><td><span class="status active">Active</span></td><td><button class="danger" type="button" (click)="deleteSubject(subject)">Delete</button></td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</section>

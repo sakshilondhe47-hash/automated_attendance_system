@@ -1,0 +1,89 @@
+﻿<div class="app-shell">
+  <aside class="sidebar" *ngIf="isLoggedIn">
+    <div class="brand-block">
+      <div class="brand-mark">AE</div>
+      <div>
+        <p class="eyebrow">Campus ERP</p>
+        <h2>Attendance ERP</h2>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a *ngFor="let item of navItems" [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.path === '/' }">
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="ghost-btn" type="button" (click)="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <header class="topbar" *ngIf="isLoggedIn">
+      <div>
+        <p class="eyebrow">Premium campus operations</p>
+        <h1>{{ title }}</h1>
+      </div>
+      <button class="ghost-btn" type="button" (click)="logout()">Logout</button>
+    </header>
+
+    <section class="auth-surface" *ngIf="!isLoggedIn">
+      <div class="auth-card">
+        <div class="toggle-row">
+          <button type="button" [class.active]="authMode === 'login'" (click)="toggleMode('login')">Sign in</button>
+          <button type="button" [class.active]="authMode === 'register'" (click)="toggleMode('register')">Create account</button>
+        </div>
+
+        <div *ngIf="authMode === 'login'; else registerView">
+          <h3>Welcome back</h3>
+          <p>Access your ERP attendance workspace in seconds.</p>
+          <form (ngSubmit)="submitAuth()">
+            <label class="field">
+              <span>Username</span>
+              <input [(ngModel)]="form.username" name="username" required />
+            </label>
+            <label class="field">
+              <span>Password</span>
+              <div class="password-row">
+                <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="form.password" name="password" minlength="8" required />
+                <button type="button" class="inline-btn" (click)="togglePassword()">{{ showPassword ? 'Hide' : 'Show' }}</button>
+              </div>
+            </label>
+            <button class="primary-btn" type="submit">Continue</button>
+          </form>
+        </div>
+
+        <ng-template #registerView>
+          <h3>Create your workspace</h3>
+          <form (ngSubmit)="submitAuth()">
+            <label class="field">
+              <span>Full name</span>
+              <input [(ngModel)]="form.fullName" name="fullName" required />
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input type="email" [(ngModel)]="form.email" name="email" required />
+            </label>
+            <label class="field">
+              <span>Username</span>
+              <input [(ngModel)]="form.username" name="username" required />
+            </label>
+            <label class="field">
+              <span>Password</span>
+              <input type="password" [(ngModel)]="form.password" name="password" minlength="8" required />
+            </label>
+            <button class="primary-btn" type="submit">Create account</button>
+          </form>
+        </ng-template>
+
+        <p class="message" *ngIf="message">{{ message }}</p>
+      </div>
+    </section>
+
+    <section class="content-area" *ngIf="isLoggedIn">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

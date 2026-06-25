@@ -1,0 +1,313 @@
+.page-shell { display: flex; flex-direction: column; gap: 1.25rem; }
+.hero-card, .card { background: rgba(255,255,255,0.94); border: 1px solid rgba(15,23,42,0.08); border-radius: 24px; padding: 1.25rem; box-shadow: 0 24px 60px rgba(15,23,42,0.08); }
+.toolbar { display: flex; justify-content: flex-start; }
+.session-picker { display: flex; flex-direction: column; gap: 0.45rem; font-weight: 600; color: #334155; }
+select, button { padding: 0.8rem 0.95rem; border-radius: 12px; border: 1px solid #dbe3ef; }
+.board-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.summary-pill { padding: 0.5rem 0.8rem; background: #eff6ff; color: #2563eb; border-radius: 999px; font-weight: 700; }
+.batch-actions { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.batch-actions span { color: #64748b; font-weight: 600; }
+.batch-buttons { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.batch-buttons button { background: #f8fafc; color: #334155; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.8rem 0.7rem; border-bottom: 1px solid #e2e8f0; text-align: left; }
+.status-group { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.status-group button { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+.status-group button.active { background: #2563eb; color: white; }
+.actions { display: flex; justify-content: flex-end; margin-top: 1rem; }
+.primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; font-weight: 700; }
+@media (max-width: 720px) { .board-header, .batch-actions { flex-direction: column; align-items: flex-start; } }
+
+.attendance-shell {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.attendance-hero,
+.board-card,
+.session-card,
+.empty-state,
+.message {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
+}
+
+.attendance-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: 30px;
+  color: #fff;
+  background: linear-gradient(135deg, #0f172a, #2563eb);
+}
+
+.attendance-hero h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  letter-spacing: -0.06em;
+}
+
+.attendance-hero p {
+  max-width: 760px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.7;
+}
+
+.hero-metric {
+  min-width: 170px;
+  padding: 1.1rem;
+  border-radius: 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.hero-metric strong {
+  display: block;
+  font-size: 2.2rem;
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.session-card {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.2rem;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.session-topline,
+.session-meta,
+.save-bar,
+.board-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.session-topline {
+  justify-content: space-between;
+}
+
+.session-topline span,
+.session-topline em,
+.summary-stack span,
+.summary-stack em {
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+  font-style: normal;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.session-topline span {
+  color: #0369a1;
+  background: #e0f2fe;
+}
+
+.session-topline em {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.session-topline em.completed {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.session-card h2 {
+  margin: 0;
+}
+
+.session-card p,
+.session-meta,
+.board-header p,
+.save-bar p,
+.board-toolbar p {
+  margin: 0;
+  color: #64748b;
+}
+
+.session-meta {
+  align-items: stretch;
+}
+
+.session-meta span {
+  padding: 0.55rem 0.7rem;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.session-card button,
+.primary {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.85rem 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.session-card button:disabled,
+.primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.board-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.board-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.back-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 0.9rem;
+  color: #1d4ed8;
+  background: #eff6ff;
+  font-weight: 800;
+}
+
+.summary-stack {
+  display: grid;
+  gap: 0.45rem;
+  min-width: 160px;
+}
+
+.summary-stack strong {
+  font-size: 1.5rem;
+}
+
+.summary-stack span {
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.summary-stack em {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.board-toolbar {
+  justify-content: space-between;
+  padding: 0.95rem;
+  border-radius: 22px;
+  background: #f8fafc;
+}
+
+.search-box {
+  display: grid;
+  gap: 0.35rem;
+  min-width: min(360px, 100%);
+  color: #475569;
+  font-weight: 700;
+}
+
+.search-box input {
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+  padding: 0.8rem 0.95rem;
+}
+
+.attendance-shell .table-wrap {
+  overflow: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+}
+
+.attendance-shell table {
+  min-width: 820px;
+}
+
+.attendance-shell th {
+  background: #f8fafc;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+}
+
+.student-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.student-cell span {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  font-weight: 800;
+}
+
+.attendance-shell .status-group button {
+  border: 1px solid #dbeafe;
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.attendance-shell .status-group button.exception {
+  color: #92400e;
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.attendance-shell .status-group button.active {
+  color: #fff;
+  background: #2563eb;
+}
+
+.save-bar {
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #f8fafc, #eff6ff);
+}
+
+.empty-state,
+.message {
+  padding: 1rem;
+  border-radius: 22px;
+  color: #475569;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.message {
+  color: #1d4ed8;
+  font-weight: 800;
+}
+
+@media (max-width: 1100px) {
+  .session-grid,
+  .board-header {
+    grid-template-columns: 1fr;
+  }
+
+  .attendance-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

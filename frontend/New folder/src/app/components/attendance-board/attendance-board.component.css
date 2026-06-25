@@ -1,0 +1,15 @@
+.page-shell { display: flex; flex-direction: column; gap: 1.25rem; }
+.hero-card, .card { background: rgba(255,255,255,0.94); border: 1px solid rgba(15,23,42,0.08); border-radius: 20px; padding: 1.25rem; box-shadow: 0 20px 40px rgba(15,23,42,0.08); }
+.toolbar { display: flex; justify-content: flex-start; }
+.session-picker { display: flex; flex-direction: column; gap: 0.45rem; font-weight: 600; color: #334155; }
+select, button { padding: 0.8rem 0.95rem; border-radius: 12px; border: 1px solid #dbe3ef; }
+.board-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.summary-pill { padding: 0.5rem 0.8rem; background: #eff6ff; color: #2563eb; border-radius: 999px; font-weight: 700; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.8rem 0.7rem; border-bottom: 1px solid #e2e8f0; text-align: left; }
+.status-group { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.status-group button { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+.status-group button.active { background: #2563eb; color: white; }
+.actions { display: flex; justify-content: flex-end; margin-top: 1rem; }
+.primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; font-weight: 700; }

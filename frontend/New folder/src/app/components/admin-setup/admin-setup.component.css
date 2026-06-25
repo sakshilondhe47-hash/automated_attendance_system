@@ -1,0 +1,9 @@
+.page-shell { display: flex; flex-direction: column; gap: 1.25rem; }
+.hero-card, .card { background: rgba(255,255,255,0.94); border: 1px solid rgba(15,23,42,0.08); border-radius: 20px; padding: 1.25rem; box-shadow: 0 20px 40px rgba(15,23,42,0.08); }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+form { display: grid; gap: 0.7rem; margin-bottom: 0.8rem; }
+input, button { padding: 0.8rem 0.95rem; border-radius: 12px; border: 1px solid #dbe3ef; }
+button { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; font-weight: 600; cursor: pointer; }
+ul { padding-left: 1rem; color: #475569; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.24em; color: #3b82f6; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.4rem; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }

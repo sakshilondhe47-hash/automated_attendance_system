@@ -1,0 +1,174 @@
+<section class="attendance-shell">
+  <div class="attendance-hero">
+    <div>
+      <p class="eyebrow">Faculty workflow</p>
+      <h1>Attendance Classes</h1>
+      <p>Choose a class and mark attendance directly from the roster. The view is focused on students and classes rather than time slots.</p>
+    </div>
+    <div class="hero-metric">
+      <strong>{{ pendingSessions.length }}</strong>
+      <span>pending classes</span>
+    </div>
+  </div>
+
+  <div class="message" *ngIf="message">{{ message }}</div>
+
+  <ng-container *ngIf="!selectedSession; else attendanceBoard">
+    <div class="session-grid" *ngIf="sessions.length; else emptyClasses">
+      <article class="session-card" *ngFor="let session of sessions">
+        <div class="session-topline">
+          <em [class.completed]="(session.status || '').toUpperCase() === 'COMPLETED'">{{ session.status || 'PENDING' }}</em>
+        </div>
+        <h2>{{ session.className }}</h2>
+        <p>{{ session.subjectName }}</p>
+        <div class="session-meta">
+          <span>Teacher: {{ session.teacherName }}</span>
+          <span>Room: {{ session.room }}</span>
+          <span>Semester: {{ session.semester }}</span>
+          <span>Date: {{ session.date || today }}</span>
+        </div>
+        <button type="button" (click)="selectSession(session)" [disabled]="(session.status || '').toUpperCase() === 'COMPLETED'">
+          {{ (session.status || '').toUpperCase() === 'COMPLETED' ? 'Completed' : 'Start Attendance' }}
+        </button>
+      </article>
+    </div>
+
+    <ng-template #emptyClasses>
+      <div class="empty-state">No classes are scheduled for today. Once sessions exist, they will appear here automatically.</div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #attendanceBoard>
+    <div class="board-card" *ngIf="selectedSession">
+      <div class="board-header">
+        <button class="back-button" type="button" (click)="backToClasses()">← Today’s Classes</button>
+        <div>
+          <p class="eyebrow">Attendance in progress</p>
+          <h2>{{ selectedSession.className }} • {{ selectedSession.subjectName }}</h2>
+          <p>{{ selectedSession.teacherName }} • {{ selectedSession.room }} • {{ selectedSession.date || today }}</p>
+        </div>
+        <div class="summary-stack">
+          <span>{{ attendance.length }} students</span>
+          <strong>{{ presentCount }} present</strong>
+          <em>{{ exceptionCount }} exceptions</em>
+        </div>
+      </div>
+
+      <div class="board-toolbar">
+        <label class="search-box">
+          <span>Search roster</span>
+          <input [(ngModel)]="searchTerm" name="searchTerm" placeholder="Search by name or roll number" />
+        </label>
+        <p>All students are marked <strong>Present</strong> by default. Change only Absent, Late, or Leave.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Roll No.</th>
+              <th>Student</th>
+              <th>Class</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of filteredAttendance">
+              <td>{{ item.student.rollNumber }}</td>
+              <td>
+                <div class="student-cell">
+                  <span>{{ item.student.name?.slice(0, 1) }}</span>
+                  <strong>{{ item.student.name }}</strong>
+                </div>
+              </td>
+              <td>{{ item.className }}</td>
+              <td>
+                <div class="status-group">
+                  <button *ngFor="let status of statusOptions" type="button" [class.active]="item.status === status" [class.exception]="status !== 'PRESENT'" (click)="setStatus(item, status)">
+                    {{ status }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="save-bar">
+        <div>
+          <strong>Ready to save once</strong>
+          <p>{{ presentCount }} present • {{ exceptionCount }} absent/late/leave</p>
+        </div>
+        <button class="primary" type="button" (click)="submitAttendance()" [disabled]="saving || !attendance.length">
+          {{ saving ? 'Saving...' : 'Save Attendance' }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-container *ngIf="false">
+  <div class="hero-card">
+    <div>
+      <p class="eyebrow">Attendance board</p>
+      <h1>Mark attendance in a single pass</h1>
+      <p>Choose today’s class session, review the roster, and finalize the day’s attendance with confidence.</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <label class="session-picker">
+      <span>Today’s session</span>
+      <select [(ngModel)]="selectedSessionId" (change)="onSessionChange()">
+        <option *ngFor="let session of sessions" [value]="session.id">{{ session.className }} · {{ session.subjectName }} · {{ session.teacherName }}</option>
+      </select>
+    </label>
+  </div>
+
+  <div *ngIf="selectedSession" class="card board-card">
+    <div class="board-header">
+      <div>
+        <h3>{{ selectedSession.className }}</h3>
+        <p>{{ selectedSession.subjectName }} · {{ selectedSession.teacherName }} · {{ selectedSession.room }}</p>
+      </div>
+      <div class="summary-pill">{{ attendance.length }} students</div>
+    </div>
+
+    <div class="batch-actions">
+      <span>Quick fill</span>
+      <div class="batch-buttons">
+        <button type="button" (click)="markAll('PRESENT')">Mark all present</button>
+        <button type="button" (click)="markAll('ABSENT')">Mark all absent</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Roll</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of attendance">
+            <td>{{ item.student.name }}</td>
+            <td>{{ item.student.rollNumber }}</td>
+            <td>
+              <div class="status-group">
+                <button *ngFor="let status of statusOptions" type="button" [class.active]="item.status === status" (click)="setStatus(item, status)">
+                  {{ status }}
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="primary" type="button" (click)="submitAttendance()">Submit attendance</button>
+    </div>
+  </div>
+  </ng-container>
+</section>

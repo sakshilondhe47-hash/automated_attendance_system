@@ -1,0 +1,3 @@
+@import '../students/students.component.css';
+.entry-card form { display:grid; gap:.75rem; padding-bottom:1rem; margin-bottom:1rem; border-bottom:1px solid #e2e8f0; }
+.entry-card form:last-child { border-bottom:0; margin-bottom:0; padding-bottom:0; }

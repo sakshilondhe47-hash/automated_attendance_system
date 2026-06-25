@@ -1,0 +1,57 @@
+<section class="page-shell">
+  <div class="hero-card">
+    <div>
+      <p class="eyebrow">Attendance board</p>
+      <h1>Mark attendance in a single pass</h1>
+      <p>Choose today’s class session, review the roster, and submit all marks quickly.</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <label class="session-picker">
+      <span>Today’s session</span>
+      <select [(ngModel)]="selectedSessionId" (change)="onSessionChange()">
+        <option *ngFor="let session of sessions" [value]="session.id">{{ session.className }} · {{ session.subjectName }} · {{ session.teacherName }}</option>
+      </select>
+    </label>
+  </div>
+
+  <div *ngIf="selectedSession" class="card board-card">
+    <div class="board-header">
+      <div>
+        <h3>{{ selectedSession.className }}</h3>
+        <p>{{ selectedSession.subjectName }} · {{ selectedSession.teacherName }} · {{ selectedSession.room }}</p>
+      </div>
+      <div class="summary-pill">{{ attendance.length }} students</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Roll</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of attendance">
+            <td>{{ item.student.name }}</td>
+            <td>{{ item.student.rollNumber }}</td>
+            <td>
+              <div class="status-group">
+                <button *ngFor="let status of statusOptions" type="button" [class.active]="item.status === status" (click)="setStatus(item, status)">
+                  {{ status }}
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="primary" type="button" (click)="submitAttendance()">Submit attendance</button>
+    </div>
+  </div>
+</section>

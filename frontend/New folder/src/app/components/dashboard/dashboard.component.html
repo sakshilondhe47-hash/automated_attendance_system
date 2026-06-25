@@ -1,0 +1,31 @@
+<section class="page-shell">
+  <div class="hero-card">
+    <p class="eyebrow">Smart attendance</p>
+    <h1>Modern student attendance management</h1>
+    <p>Set up your academic data once and turn daily attendance into a guided workflow.</p>
+  </div>
+
+  <div class="stats-grid" *ngIf="summary">
+    <div class="stat-card">
+      <h3>{{ summary.totalStudents }}</h3>
+      <p>Students</p>
+    </div>
+    <div class="stat-card">
+      <h3>{{ summary.totalFaculty }}</h3>
+      <p>Faculty</p>
+    </div>
+    <div class="stat-card">
+      <h3>{{ summary.todayAttendance }}</h3>
+      <p>Sessions</p>
+    </div>
+    <div class="stat-card">
+      <h3>{{ summary.attendancePercentage }}%</h3>
+      <p>Attendance rate</p>
+    </div>
+  </div>
+
+  <div class="card action-grid">
+    <a routerLink="/admin" class="action-card">Admin setup</a>
+    <a routerLink="/attendance" class="action-card">Take attendance</a>
+  </div>
+</section>
